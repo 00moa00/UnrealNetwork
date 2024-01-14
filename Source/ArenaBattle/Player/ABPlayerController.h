@@ -9,26 +9,24 @@
 DECLARE_LOG_CATEGORY_EXTERN(LogABPlayerController, Log, All);
 
 /**
- * 
+ *
  */
 UCLASS()
 class ARENABATTLE_API AABPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
-public:
+
+	public:
 	AABPlayerController();
-	
-	//virtual void SetPawn(APawn* InPawn) override;
 
 protected:
-	//virtual void PostInitializeComponents() override;
+	virtual void PostInitializeComponents() override;
 	virtual void PostNetInit() override;
 	virtual void BeginPlay() override;
 	virtual void OnPossess(APawn* InPawn) override;
 
-	
-// HUD Section
+
+	// HUD Section
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HUD)
 	TSubclassOf<class UABHUDWidget> ABHUDWidgetClass;

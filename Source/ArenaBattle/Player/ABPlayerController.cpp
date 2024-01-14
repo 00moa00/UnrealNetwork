@@ -18,43 +18,40 @@ AABPlayerController::AABPlayerController()
 	}
 }
 
-void AABPlayerController::OnPossess(APawn* InPawn)
+void AABPlayerController::PostInitializeComponents()
 {
-	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("Begin"), *GetName());
+	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("Begin"));
 
-	Super::OnPossess(InPawn);
+	Super::PostInitializeComponents();
 
 	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("End"));
 }
 
-//void AABPlayerController::SetPawn(APawn* InPawn)
-//{
-//	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("Begin"), *GetName());
-//	if (InPawn)
-//	{
-//		AActor* PawnOwner = InPawn->GetOwner();
-//		if (PawnOwner)
-//		{
-//			AB_LOG(LogABNetwork, Log, TEXT("%s Pawn's Owner : %s"), *GetName(), *PawnOwner->GetName());
-//		}
-//		else
-//		{
-//			AB_LOG(LogABNetwork, Log, TEXT("%s %s"), *GetName(), TEXT("Pawn has no Owner"));
-//		}
-//	}
-//	else
-//	{
-//		AB_LOG(LogABNetwork, Log, TEXT("%s %s"), *GetName(), TEXT("No Pawn"));
-//	}
-//
-//	Super::SetPawn(InPawn);
-//
-//	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("End"));
-//}
+void AABPlayerController::PostNetInit()
+{
+	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("Begin"));
+
+	Super::PostNetInit();
+
+	UNetDriver* NetDriver = GetNetDriver();
+	if (NetDriver)
+	{
+		if (NetDriver->ServerConnection)
+		{
+			AB_LOG(LogABNetwork, Log, TEXT("Server Connection: %s"), *NetDriver->ServerConnection->GetName());
+		}
+	}
+	else
+	{
+		AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("No NetDriver"));
+	}
+
+	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("End"));
+}
 
 void AABPlayerController::BeginPlay()
 {
-	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("Begin"), *GetName());
+	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("Begin"));
 
 	Super::BeginPlay();
 
@@ -64,30 +61,11 @@ void AABPlayerController::BeginPlay()
 	SetInputMode(GameOnlyInputMode);
 }
 
-//void AABPlayerController::PostInitializeComponents()
-//{
-//	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("Begin"), *GetName());
-//
-//	Super::PostInitializeComponents();
-//
-//	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("End"));
-//}
-
-void AABPlayerController::PostNetInit()
+void AABPlayerController::OnPossess(APawn* InPawn)
 {
-	AB_LOG(LogABNetwork, Log, TEXT("%s %s"), TEXT("Begin"), *GetName());
+	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("Begin"));
 
-	Super::PostNetInit();
-
-	UNetDriver* NetDriver = GetNetDriver();
-	if (NetDriver)
-	{
-		AB_LOG(LogABNetwork, Log, TEXT("Server Connection : %s"), *NetDriver->ServerConnection->GetName());
-	}
-	else
-	{
-		AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("No NetDriver"));
-	}
+	Super::OnPossess(InPawn);
 
 	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("End"));
 }
